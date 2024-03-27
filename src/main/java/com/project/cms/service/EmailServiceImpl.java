@@ -14,8 +14,8 @@ import javax.mail.internet.MimeMessage;
 @Service
 @RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
-    private final JavaMailSender mailSender = null;
-    private final Environment environment = null;
+    private final JavaMailSender mailSender;
+    private final Environment environment;
 
     @Override @Async
     public void send(String to, String subject, String content) {

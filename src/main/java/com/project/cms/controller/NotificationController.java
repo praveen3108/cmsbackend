@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class NotificationController {
-    private final NotificationService notificationService = null;
+    private final NotificationService notificationService;
 
     @GetMapping("/notifications")
     public ResponseEntity<?> getNotifications(@RequestParam("page") Integer page,

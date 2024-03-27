@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class CountryController {
-    private final CountryService countryService = null;
+    private final CountryService countryService;
 
     @GetMapping("/countries")
     public ResponseEntity<?> getCountryList() {

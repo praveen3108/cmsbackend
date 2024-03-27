@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class TimelineController {
-    private final PostService postService = null;
-    private final TagService tagService = null;
+    private final PostService postService;
+    private final TagService tagService;
 
     @GetMapping( "/")
     public ResponseEntity<?> getTimelinePosts(@RequestParam("page") Integer page,

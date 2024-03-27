@@ -27,10 +27,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter();
-    private final CustomAccessDeniedHandler accessDeniedHandler = new CustomAccessDeniedHandler();
-    private final CustomAuthenticationEntryPoint authenticationEntryPoint = new CustomAuthenticationEntryPoint();
-    private final CustomUserDetailService userDetailService = new CustomUserDetailService();
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint ;
+    private final CustomUserDetailService userDetailService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

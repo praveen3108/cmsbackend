@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CountryServiceImpl implements CountryService {
-    private final CountryRepository countryRepository = null;
+    private final CountryRepository countryRepository;
 
     @Override
     public Country getCountryById(Long id) {

@@ -29,8 +29,8 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class PostController {
-    private final PostService postService = null;
-    private final CommentService commentService = null;
+    private final PostService postService;
+    private final CommentService commentService;
     private final UserServiceImpl userService;
     private final TagServiceImpl tagService;
 

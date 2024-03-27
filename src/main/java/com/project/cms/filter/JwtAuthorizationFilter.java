@@ -22,7 +22,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
-    private final JwtTokenService jwtTokenService = new JwtTokenService();
+    private final JwtTokenService jwtTokenService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
