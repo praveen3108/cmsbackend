@@ -31,6 +31,7 @@ public class AppConstants {
     public static final String[] PUBLIC_URLS = {
             "/api/v1/signup",
             "/api/v1/login",
+            "/api/v1/adminlogin",
             "/api/v1/verify-email/**",
             "/api/v1/forgot-password",
             "/api/v1/reset-password/**",

@@ -46,18 +46,43 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginDto loginDto) {
-    	
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword())
-        );
-        System.out.println(loginDto.getEmail());
-        User loginUser = userService.getUserByEmail(loginDto.getEmail());
-        UserPrincipal userPrincipal = new UserPrincipal(loginUser);
-        HttpHeaders newHttpHeaders = new HttpHeaders();
-        newHttpHeaders.add(AppConstants.TOKEN_HEADER, jwtTokenService.generateToken(userPrincipal));
-        return new ResponseEntity<>(loginUser, newHttpHeaders, HttpStatus.OK);
+    	User loginUser = userService.getUserByEmail(loginDto.getEmail());
+    	//System.out.println(loginUser.getRole());
+    	if(loginUser.getRole().equals("ROLE_USER")) {
+    		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginDto.getEmail(), loginDto.getPassword())
+            );
+            System.out.println(loginDto.getEmail());
+            UserPrincipal userPrincipal = new UserPrincipal(loginUser);
+            System.out.println(loginUser.getFirstName());
+            HttpHeaders newHttpHeaders = new HttpHeaders();
+            newHttpHeaders.add(AppConstants.TOKEN_HEADER, jwtTokenService.generateToken(userPrincipal));
+            return new ResponseEntity<>(loginUser, newHttpHeaders, HttpStatus.OK);
+    	}
+    	else {
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    	}
     }
-
+    @PostMapping("/adminlogin")
+    public ResponseEntity<?> adminlogin(@RequestBody @Valid LoginDto loginDto) {
+    	User loginUser = userService.getUserByEmail(loginDto.getEmail());
+    	//System.out.println(loginUser.getRole());
+    	if(loginUser.getRole().equals("ROLE_ADMIN")) {
+    		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    loginDto.getEmail(), loginDto.getPassword())
+            );
+            System.out.println(loginDto.getEmail());
+            UserPrincipal userPrincipal = new UserPrincipal(loginUser);
+            System.out.println(loginUser.getFirstName());
+            HttpHeaders newHttpHeaders = new HttpHeaders();
+            newHttpHeaders.add(AppConstants.TOKEN_HEADER, jwtTokenService.generateToken(userPrincipal));
+            return new ResponseEntity<>(loginUser, newHttpHeaders, HttpStatus.OK);
+    	}
+    	else {
+    		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    	}
+        
+    }
     @GetMapping("/profile")
     public ResponseEntity<?> showUserProfile(Authentication authentication) {
         User user = userService.getUserByEmail(authentication.getPrincipal().toString());

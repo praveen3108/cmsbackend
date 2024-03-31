@@ -182,15 +182,18 @@ public class UserServiceImpl implements UserService {
             String uploadDir = environment.getProperty("upload.user.images");
             String oldPhotoName = targetUser.getProfilePhoto();
             String newPhotoName = fileNamingUtil.nameFile(profilePhoto);
-            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
-                    + environment.getProperty("upload.user.images") + File.separator + newPhotoName;
-            targetUser.setProfilePhoto(newPhotoUrl);
+//            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
+//                    + environment.getProperty("upload.user.images") + File.separator + newPhotoName;
+//            targetUser.setProfilePhoto(newPhotoUrl);
             try {
                 if (oldPhotoName == null) {
-                    fileUploadUtil.saveNewFile(uploadDir, newPhotoName, profilePhoto);
+                	String newPhotoUrl =  fileUploadUtil.saveNewFile(uploadDir, newPhotoName, profilePhoto);
+                    targetUser.setProfilePhoto(newPhotoUrl);
                 } else {
-                    fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, profilePhoto);
+                	String newPhotoUrl  =fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, profilePhoto);
+                	targetUser.setProfilePhoto(newPhotoUrl);
                 }
+                
             } catch (IOException e) {
                 throw new RuntimeException();
             }
@@ -205,14 +208,16 @@ public class UserServiceImpl implements UserService {
             String uploadDir = environment.getProperty("upload.user.images");
             String oldPhotoName = targetUser.getCoverPhoto();
             String newPhotoName = fileNamingUtil.nameFile(coverPhoto);
-            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
-                    + environment.getProperty("upload.user.images") + File.separator + newPhotoName;
-            targetUser.setCoverPhoto(newPhotoUrl);
+//            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
+//                    + environment.getProperty("upload.user.images") + File.separator + newPhotoName;
+//            
             try {
                 if (oldPhotoName == null) {
-                    fileUploadUtil.saveNewFile(uploadDir, newPhotoName, coverPhoto);
+                	String newPhotoUrl =  fileUploadUtil.saveNewFile(uploadDir, newPhotoName, coverPhoto);
+                    targetUser.setCoverPhoto(newPhotoUrl);
                 } else {
-                    fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, coverPhoto);
+                	String newPhotoUrl =fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, coverPhoto);
+                    targetUser.setCoverPhoto(newPhotoUrl);
                 }
             } catch (IOException e) {
                 throw new RuntimeException();

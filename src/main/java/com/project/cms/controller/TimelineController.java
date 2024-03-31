@@ -29,6 +29,14 @@ public class TimelineController {
         List<PostResponse> timelinePosts = postService.getTimelinePostsPaginate(page, size);
         return new ResponseEntity<>(timelinePosts, HttpStatus.OK);
     }
+    @GetMapping( "/getallPosts")
+    public ResponseEntity<?> getAllTimelinePosts(@RequestParam("page") Integer page,
+                                              @RequestParam("size") Integer size) {
+        page = page < 0 ? 0 : page-1;
+        size = size <= 0 ? 5 : size;
+        List<PostResponse> timelinePosts = postService.getAllPostsPaginate(page, size);
+        return new ResponseEntity<>(timelinePosts, HttpStatus.OK);
+    }
 
     @GetMapping( "/tags")
     public ResponseEntity<?> getTimelineTags() {

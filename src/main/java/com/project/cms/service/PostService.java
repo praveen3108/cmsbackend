@@ -29,4 +29,5 @@ public interface PostService {
     Post createPostShare(String content, Long postShareId);
     Post updatePostShare(String content, Long postShareId);
     void deletePostShare(Long postShareId);
+	List<PostResponse> getAllPostsPaginate(Integer page, Integer size);
 }

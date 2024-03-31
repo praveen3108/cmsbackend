@@ -65,6 +65,15 @@ public class PostServiceImpl implements PostService {
                 PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "dateCreated")))
                 .stream().map(this::postToPostResponse).collect(Collectors.toList());
     }
+    
+    @Override
+    public List<PostResponse> getAllPostsPaginate(Integer page, Integer size) {
+   
+        return postRepository.findAll(
+                
+                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "dateCreated")))
+                .stream().map(this::postToPostResponse).collect(Collectors.toList());
+    }
 
     @Override
     public List<PostResponse> getPostSharesPaginate(Post sharedPost, Integer page, Integer size) {
@@ -107,11 +116,16 @@ public class PostServiceImpl implements PostService {
         if (postPhoto != null && postPhoto.getSize() > 0) {
             String uploadDir = environment.getProperty("upload.post.images");
             String newPhotoName = fileNamingUtil.nameFile(postPhoto);
-            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
-                    + environment.getProperty("upload.post.images") + File.separator + newPhotoName;
-            newPost.setPostPhoto(newPhotoUrl);
+            System.out.print("implementation called");
+
+//            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
+//                    + environment.getProperty("upload.post.images") + File.separator + newPhotoName;
+//            
             try {
-                fileUploadUtil.saveNewFile(uploadDir, newPhotoName, postPhoto);
+            	String newPhotoUrl=  fileUploadUtil.saveNewFile(uploadDir, newPhotoName, postPhoto);
+            	newPost.setPostPhoto(newPhotoUrl);
+                System.out.println(newPost.getPostPhoto());
+
             } catch (IOException e) {
                 throw new RuntimeException();
             }
@@ -146,14 +160,16 @@ public class PostServiceImpl implements PostService {
             String uploadDir = environment.getProperty("upload.post.images");
             String oldPhotoName = getPhotoNameFromPhotoUrl(targetPost.getPostPhoto());
             String newPhotoName = fileNamingUtil.nameFile(postPhoto);
-            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
-                    + environment.getProperty("upload.post.images") + File.separator + newPhotoName;
-            targetPost.setPostPhoto(newPhotoUrl);
+//            String newPhotoUrl = environment.getProperty("app.root.backend") + File.separator
+//                    + environment.getProperty("upload.post.images") + File.separator + newPhotoName;
+           
             try {
                 if (oldPhotoName == null) {
-                    fileUploadUtil.saveNewFile(uploadDir, newPhotoName, postPhoto);
+                	String newPhotoUrl=  fileUploadUtil.saveNewFile(uploadDir, newPhotoName, postPhoto);
+                	targetPost.setPostPhoto(newPhotoUrl);
                 } else {
-                    fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, postPhoto);
+                	String newPhotoUrl= fileUploadUtil.updateFile(uploadDir, oldPhotoName, newPhotoName, postPhoto);
+                	 targetPost.setPostPhoto(newPhotoUrl);
                 }
             } catch (IOException e) {
                 throw new RuntimeException();

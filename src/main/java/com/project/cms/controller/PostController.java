@@ -38,6 +38,7 @@ public class PostController {
     public ResponseEntity<?> createNewPost(@RequestParam(value = "content", required = false) Optional<String> content,
                                            @RequestParam(name = "postPhoto", required = false) Optional<MultipartFile> postPhoto,
                                            @RequestParam(name = "postTags", required = false) Optional<String> postTags) throws JsonProcessingException {
+    	System.out.println(postPhoto);
         if ((content.isEmpty() || content.get().length() <= 0) &&
                 (postPhoto.isEmpty() || postPhoto.get().getSize() <= 0)) {
             throw new EmptyPostException();
