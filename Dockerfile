@@ -1,11 +1,12 @@
 # Build a JAR File
-FROM maven:3.8.2-jdk-8-slim AS stage1
+FROM maven:3.8.1-openjdk-17-slim AS stage1
 WORKDIR /home/app
 COPY . /home/app/
-RUN mvn -f /home/app/pom.xml clean package
+RUN mvn -f /home/app/pom.xml clean package -DskipTests
 
 # Create an Image
-FROM openjdk:8-jdk-alpine
+FROM openjdk:17-jdk-alpine
 EXPOSE 5000
-COPY --from=stage1 /home/app/target/hello-world-java.jar hello-world-java.jar
-ENTRYPOINT ["sh", "-c", "java -jar /hello-world-java.jar"]
+COPY --from=stage1 /home/app/target/cms-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
