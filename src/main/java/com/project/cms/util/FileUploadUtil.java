@@ -5,14 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.azure.storage.blob.*;
 
-import org.springframework.core.io.WritableResource;
+import org.springframework.beans.factory.annotation.Value;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
 
 import javax.annotation.PostConstruct;
 
@@ -21,13 +16,20 @@ public class FileUploadUtil {
 	
 	 private BlobServiceClient blobServiceClient;
 	 
-	 public String containerName="files";
-	 public String connectionString="DefaultEndpointsProtocol=https;AccountName=cmscontents;AccountKey=McuEbG/wP7yN3WmClbkJqxBrcFRcarfY7EamEnnNPPoHmxKCsrEOJ4kGKi/L4YBTY8w0bem1vk8x+AStcvLmww==;EndpointSuffix=core.windows.net";
+	 @Value("${azure.blob-storage.connection-string}")
+	    private String connectionString;
+
+	    @Value("${azure.storage.container-name}")
+	 private String containerName;
+	 
+	 //public String containerName="files";
+	 //public String connectionString="DefaultEndpointsProtocol=https;AccountName=cmsproject1;AccountKey=ECRHZRPgcU/9iB2zwpxdia2ZeoedGiMn98f1WpjfcC27mUTaNM3RKXtMZGokKim0AV5S6+pwVbQU+AStqcffIg==;EndpointSuffix=core.windows.net";
 
 	 @PostConstruct
 	    public void init() {
 	        blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
 	    }
+	 
     public String saveNewFile(String uploadDir,
                             String fileName,
                             MultipartFile multipartFile) throws IOException {
@@ -42,7 +44,7 @@ public class FileUploadUtil {
 //        } catch (IOException e) {
 //            throw new IOException("Could not save file");
 //        }
-        System.out.print("calling azure");
+      //  System.out.print("calling azure");
 
     	   BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
            
@@ -54,9 +56,13 @@ public class FileUploadUtil {
 
             blobClient.upload(multipartFile.getInputStream(), multipartFile.getSize(), true);
 
+            
+            
+            
             String imageUrl = blobClient.getBlobUrl();
             System.out.print(imageUrl);
-          return imageUrl;
+            
+            return imageUrl;
     	
        
     }
